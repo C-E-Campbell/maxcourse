@@ -1,9 +1,10 @@
 import React from "react";
+import Person from "./components/Person/Person";
 import "./App.scss";
 
 class App extends React.Component {
 	render() {
-		return <h1>Test</h1>;
+		return <Person />;
 	}
 }
 export default App;
