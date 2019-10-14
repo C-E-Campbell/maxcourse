@@ -1,23 +1,45 @@
 import React from "react";
+import uuid from "uuidv4";
 import Person from "./components/Person/Person";
 import "./App.scss";
 
 class App extends React.Component {
 	state = {
-		persons: [{ name: "Max" }, { name: "Charlie" }, { name: "Sean" }]
+		persons: [{ name: "Max" }, { name: "Charlie" }, { name: "Sean" }],
+		showPersons: false
 	};
 	switchNameHandler = newName => {
 		this.setState({
 			persons: [{ name: newName }, { name: newName }, { name: "LilSean" }]
 		});
 	};
+	toggleHandler = () => {
+		const show = this.state.showPersons;
+		this.setState({ showPersons: !show });
+	};
 
 	nameChangedHandler = e => {
 		this.setState({
-			persons: [{ name: "Max" }, { name: "CHarlie" }, { name: e.target.value }]
+			persons: [
+				{ name: "Super Max" },
+				{ name: "Monster Charlie" },
+				{ name: e.target.value }
+			]
 		});
 	};
+
 	render() {
+		let persons = null;
+		if (this.state.showPersons) {
+			persons = (
+				<div>
+					{this.state.persons.map(person => {
+						return <Person key={uuid()} name={person.name} />;
+					})}
+				</div>
+			);
+		}
+
 		return (
 			<div>
 				<button
@@ -27,21 +49,11 @@ class App extends React.Component {
 						border: "none",
 						borderRadius: "4px"
 					}}
-					onClick={() => this.switchNameHandler("dum max")}
+					onClick={this.toggleHandler}
 				>
-					Switch Name
+					hide/unhide
 				</button>
-				<Person name={this.state.persons[0].name} />
-				<Person
-					click={() => this.switchNameHandler("dummm max")}
-					name={this.state.persons[1].name}
-				>
-					My Hobbies: Computer Stuff
-				</Person>
-				<Person
-					changed={this.nameChangedHandler}
-					name={this.state.persons[2].name}
-				/>
+				{persons}
 			</div>
 		);
 	}
